@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpLib.Domain.Abstractions", "GpLib.Domain.Abstractions\GpLib.Domain.Abstractions.csproj", "{7A7B0398-17A6-4818-9F67-2F02B04962BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpLib.Domain.Tests", "GpLib.Domain.Tests\GpLib.Domain.Tests.csproj", "{143550CA-00B1-4E4E-AD79-FA1CB8803956}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A7B0398-17A6-4818-9F67-2F02B04962BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A7B0398-17A6-4818-9F67-2F02B04962BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A7B0398-17A6-4818-9F67-2F02B04962BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A7B0398-17A6-4818-9F67-2F02B04962BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{143550CA-00B1-4E4E-AD79-FA1CB8803956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143550CA-00B1-4E4E-AD79-FA1CB8803956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{143550CA-00B1-4E4E-AD79-FA1CB8803956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{143550CA-00B1-4E4E-AD79-FA1CB8803956}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDF1F7D3-321F-4336-96FD-37A17B71FE54}
+	EndGlobalSection
+EndGlobal
