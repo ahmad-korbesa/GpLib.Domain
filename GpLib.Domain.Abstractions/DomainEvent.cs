@@ -3,9 +3,9 @@ using System;
 
 namespace GpLib.Domain.Abstractions
 {
-    public abstract class DomainEvent<T>
+    public abstract class DomainEvent
     {
-        protected DomainEvent(T aggregateId, Guid guid, int version)
+        protected DomainEvent(object aggregateId, Guid guid, int version)
         {
             AggregateId = aggregateId;
             Guid = guid;
@@ -13,7 +13,7 @@ namespace GpLib.Domain.Abstractions
         }
 
         [JsonProperty]
-        public T AggregateId { get; protected set; }
+        public object AggregateId { get; protected set; }
 
         [JsonProperty]
         public int Version { get; protected set; }
