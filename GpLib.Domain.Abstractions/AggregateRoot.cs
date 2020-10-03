@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace GpLib.Domain.Abstractions
 {
-    public abstract class AggregateRootBase<TKey> : IAggregateRoot<TKey>
+    public abstract class AggregateRoot<TKey> : IAggregateRoot<TKey>
     {
  
-        private ImmutableList<DomainEvent> _changes = ImmutableList<DomainEvent>.Empty;
+        private ImmutableList<DomainEvent<TKey>> _changes = ImmutableList<DomainEvent<TKey>>.Empty;
 
         public TKey Id { get; protected set; }
 
@@ -15,14 +15,14 @@ namespace GpLib.Domain.Abstractions
         /// Applies an event to the current aggregate and adds it to the list of changes
         /// </summary>
         /// <param name="event"></param>
-        protected AggregateRootBase<TKey> ApplyEvent(DomainEvent @event) =>
+        protected AggregateRoot<TKey> ApplyEvent(DomainEvent<TKey> @event) =>
             Apply(@event, true);
 
         /// <summary>
         /// Gets the list of changes of the Aggregate as an immutable list
         /// </summary>
         /// <returns></returns>
-        public List<DomainEvent> GetChanges() => _changes.ToList();
+        public ICollection<DomainEvent<TKey>> GetChanges() => _changes.ToList();
 
         /// <summary>
         /// Clears the saved changes 
@@ -34,18 +34,19 @@ namespace GpLib.Domain.Abstractions
         /// </summary>
         /// <typeparam name="E"></typeparam>
         /// <param name="event">Domain-level event</param>
-        protected abstract AggregateRootBase<TKey> ApplyChange(DomainEvent @event);
+        protected abstract AggregateRoot<TKey> ApplyChange(DomainEvent<TKey> @event);
 
-        private AggregateRootBase<TKey> Apply(DomainEvent @event, bool isNew)
+        private AggregateRoot<TKey> Apply(DomainEvent<TKey> @event, bool isNew)
         {
             if (isNew)
                 _changes = _changes.Add(@event);
-
             return ApplyChange(@event);
         }
 
 
-        public void LoadFromHistory(List<DomainEvent> history) => history.Aggregate(this, (acc, @event) => acc.Apply(@event, false));
+        public void LoadFromHistory(ICollection<DomainEvent<TKey>> history) 
+            => history.Aggregate(this, 
+                (acc, @event) => acc.Apply(@event, false));
     
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace GpLib.Domain.Tests
 {
-    public class ValueAdded : DomainEvent
+    public class ValueAdded : DomainEvent<string>
     {
         private const int VERSION = 0;
         public double Value { get; set; }

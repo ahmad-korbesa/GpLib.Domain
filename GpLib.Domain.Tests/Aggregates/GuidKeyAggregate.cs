@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GpLib.Domain.Tests
 {
-    public class GuidKeyAggregate : AggregateRootBase<Guid>
+    public class GuidKeyAggregate : AggregateRoot<Guid>
     {
         public int X { get; protected set; }
 
@@ -25,7 +25,7 @@ namespace GpLib.Domain.Tests
 
         private GuidKeyAggregate Apply(GuidAggregateCreated @event)
         {
-            Id = (Guid)@event.AggregateId;
+            Id = @event.AggregateId;
             X = @event.X;
             Y = @event.Y;
             Values = new List<double>();
@@ -37,7 +37,7 @@ namespace GpLib.Domain.Tests
             Values.Add(@event.Value);
             return this;
         }
-        protected override AggregateRootBase<Guid> ApplyChange(DomainEvent @event) => @event switch
+        protected override AggregateRoot<Guid> ApplyChange(DomainEvent<Guid> @event) => @event switch
         {
             GuidAggregateCreated e => Apply(e),
             ValueAdded2 e => Apply(e),
