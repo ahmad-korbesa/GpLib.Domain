@@ -3,7 +3,7 @@ using System;
 
 namespace GpLib.Domain.Tests
 {
-    public class GuidAggregateCreated : DomainEvent
+    public class GuidAggregateCreated : DomainEvent<Guid>
     {
         private const int VERSION = 0;
 

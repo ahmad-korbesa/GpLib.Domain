@@ -15,10 +15,13 @@ namespace GpLib.Domain.Tests
             obj.AddValue(5);
             var changes = obj.GetChanges();
             changes.Should().HaveCount(3);
-            changes[0].Should().BeOfType(typeof(StringAggregateCreated));
-            changes[1].Should().BeOfType(typeof(ValueAdded));
-            changes[2].Should().BeOfType(typeof(ValueAdded));
-            changes.Select(x => x.AggregateId).Should().AllBeEquivalentTo("P12345");
+            changes.ElementAt(0).Should().BeOfType(typeof(StringAggregateCreated));
+            changes.ElementAt(1).Should().BeOfType(typeof(ValueAdded));
+            changes.ElementAt(2).Should().BeOfType(typeof(ValueAdded));
+            foreach (var item in changes)
+            {
+                item.AggregateId.Should().Be("P12345");
+            }
         }
 
         [Fact]

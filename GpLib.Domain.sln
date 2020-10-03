@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpLib.Domain.Abstractions", "GpLib.Domain.Abstractions\GpLib.Domain.Abstractions.csproj", "{7A7B0398-17A6-4818-9F67-2F02B04962BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpLib.Domain.Abstractions", "GpLib.Domain.Abstractions\GpLib.Domain.Abstractions.csproj", "{7A7B0398-17A6-4818-9F67-2F02B04962BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpLib.Domain.Tests", "GpLib.Domain.Tests\GpLib.Domain.Tests.csproj", "{143550CA-00B1-4E4E-AD79-FA1CB8803956}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpLib.Domain.Tests", "GpLib.Domain.Tests\GpLib.Domain.Tests.csproj", "{143550CA-00B1-4E4E-AD79-FA1CB8803956}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

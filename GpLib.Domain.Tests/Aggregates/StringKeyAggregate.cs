@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GpLib.Domain.Tests
 {
-    public class StringKeyAggregate : AggregateRootBase<string>
+    public class StringKeyAggregate : AggregateRoot<string>
     { 
         public int X { get; protected set; }
 
@@ -25,7 +25,7 @@ namespace GpLib.Domain.Tests
 
         private StringKeyAggregate Apply(StringAggregateCreated @event)
         {
-            Id = (string) @event.AggregateId;
+            Id = @event.AggregateId;
             X = @event.X;
             Y = @event.Y;
             Values = new List<double>();
@@ -37,7 +37,8 @@ namespace GpLib.Domain.Tests
             Values.Add(@event.Value);
             return this;
         }
-        protected override AggregateRootBase<string> ApplyChange(DomainEvent @event) => @event switch
+
+        protected override AggregateRoot<string> ApplyChange(DomainEvent<string> @event) => @event switch
         {
             StringAggregateCreated e => Apply(e),
             ValueAdded e => Apply(e),
