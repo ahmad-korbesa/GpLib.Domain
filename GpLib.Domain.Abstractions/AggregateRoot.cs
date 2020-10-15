@@ -8,10 +8,16 @@ namespace GpLib.Domain.Abstractions
 {
     public abstract class AggregateRoot<TKey> : IAggregateRoot<TKey>
     {
+        protected AggregateRoot()
+        {
+        }
 
         private ImmutableList<DomainEvent<TKey>> _changes = ImmutableList<DomainEvent<TKey>>.Empty;
 
         public abstract TKey Id { get; protected set; }
+
+        //Consider opening this name for modification
+        private string EventApplicationMethodName { get; set; } = "Apply";
 
         private AggregateRoot<TKey> HandleEvent(DomainEvent<TKey> @event)
         {
@@ -21,9 +27,9 @@ namespace GpLib.Domain.Abstractions
             var method = mytype
                 .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
                 .SingleOrDefault(p => p.ReturnType.Equals(mytype) &&
-                                        p.Name == "Apply" &&
+                                        p.Name == EventApplicationMethodName &&
                                         p.GetParameters().Single().ParameterType.Equals(eventType))
-                ?? throw new AggregateRootException($"Could not find an Apply method corresponding to the signature \"private/protected {mytype} Apply({eventType})\"");
+                ?? throw new AggregateRootException($"Could not find an {EventApplicationMethodName} method corresponding to the signature \"private/protected {mytype} {EventApplicationMethodName}({eventType})\"");
 
             return (AggregateRoot<TKey>)method.Invoke(this, new object[] { @event });
         }

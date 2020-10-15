@@ -8,6 +8,7 @@ namespace GpLib.Domain.Tests
     { 
         public override string Id { get; protected set; }
 
+      
         public int X { get; protected set; }
 
         public string Y { get; protected set; }
@@ -45,6 +46,6 @@ namespace GpLib.Domain.Tests
             return this;
         }
 
-      
+       
     }
 }
