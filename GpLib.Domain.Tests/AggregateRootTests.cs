@@ -1,4 +1,5 @@
 using FluentAssertions;
+using GpLib.Domain.Abstractions;
 using System;
 using System.Linq;
 using Xunit;
@@ -10,7 +11,7 @@ namespace GpLib.Domain.Tests
         [Fact]
         public void Should_AddEventToHistory()
         {
-            var obj = StringKeyAggregate.Create("P12345", 1, "ahmad");
+            var obj = StringKeyAggregate.Create("P12345", 1, "Ahmad");
             obj.AddValue(3);
             obj.AddValue(5);
             var changes = obj.GetChanges();
@@ -25,9 +26,17 @@ namespace GpLib.Domain.Tests
         }
 
         [Fact]
+        public void Should_ThrowExceptionForMissingApplyImplementation()
+        {
+            var obj = StringKeyAggregate.Create("P12345", 1, "Ahmad");
+            Action action = () => obj.InvokeMissingEvent();
+            action.Should().ThrowExactly<AggregateRootException>();
+        }
+
+        [Fact]
         public void Should_NotAffectInnerChangesListWhenChangedAfterReturned()
         {
-            var obj = StringKeyAggregate.Create("P12345", 1, "ahmad");
+            var obj = StringKeyAggregate.Create("P12345", 1, "Ahmad");
             obj.AddValue(3);
             obj.AddValue(5);
             var changes = obj.GetChanges();
@@ -45,7 +54,7 @@ namespace GpLib.Domain.Tests
         [Fact]
         public void Should_RewindFromHistory()
         {
-            var obj = StringKeyAggregate.Create("P12345", 1, "ahmad");
+            var obj = StringKeyAggregate.Create("P12345", 1, "Ahmad");
             obj.AddValue(3);
             obj.AddValue(5);
             var changes = obj.GetChanges();
@@ -56,6 +65,20 @@ namespace GpLib.Domain.Tests
             newObj.X.Should().Be(obj.X);
             newObj.Y.Should().Be(obj.Y);
             newObj.Values.Should().BeEquivalentTo(obj.Values);
+        }
+
+
+        [Fact]
+        public void Should_ApplySpec()
+        {
+            var obj = StringKeyAggregate.Create("P12345", 1, "Ahmad");
+            obj.AddValue(3);
+            obj.AddValue(5);
+
+            var spec = new Specs.StringAggregatePositiveX();
+            spec.IsSatisfiedBy(obj).Should().BeTrue();
+
+
         }
     }
 }

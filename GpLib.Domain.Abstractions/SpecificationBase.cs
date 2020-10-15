@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace GpLib.Domain.Abstractions
 {
-    public abstract class SpecificationBase<T> : ISpecification<T>
+    public abstract class SpecificationBase<T,TKey> : ISpecification<T, TKey> where T : AggregateRoot<TKey>
     {
         private Func<T, bool> _compiledExpression;
 

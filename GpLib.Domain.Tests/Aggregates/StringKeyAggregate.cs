@@ -6,6 +6,8 @@ namespace GpLib.Domain.Tests
 {
     public class StringKeyAggregate : AggregateRoot<string>
     { 
+        public override string Id { get; protected set; }
+
         public int X { get; protected set; }
 
         public string Y { get; protected set; }
@@ -15,15 +17,20 @@ namespace GpLib.Domain.Tests
         protected StringKeyAggregate() { }
 
         protected StringKeyAggregate(string id, int x, string y) =>
-            ApplyEvent(new StringAggregateCreated(x, y, id, Guid.NewGuid()));
+            ApplyChange(new StringAggregateCreated(x, y, id, Guid.NewGuid()));
       
         public static StringKeyAggregate Create(string id, int x, string y) => new StringKeyAggregate(id, x, y);
 
         public static StringKeyAggregate CreateEmpty() => new StringKeyAggregate();
 
-        public StringKeyAggregate AddValue(double v) => ApplyEvent(new ValueAdded(v, Id, Guid.NewGuid())) as StringKeyAggregate;
+        public StringKeyAggregate AddValue(double v) => ApplyChange(new ValueAdded(v, Id, Guid.NewGuid())) as StringKeyAggregate;
 
-        private StringKeyAggregate Apply(StringAggregateCreated @event)
+        public void InvokeMissingEvent()
+        {
+            ApplyChange(new StringAggregateMissingEvent(Id, Guid.NewGuid(), 0));
+        }
+
+        protected StringKeyAggregate Apply(StringAggregateCreated @event)
         {
             Id = @event.AggregateId;
             X = @event.X;
@@ -32,18 +39,12 @@ namespace GpLib.Domain.Tests
             return this;
         }
 
-        private StringKeyAggregate Apply(ValueAdded @event)
+        protected StringKeyAggregate Apply(ValueAdded @event)
         {
             Values.Add(@event.Value);
             return this;
         }
 
-        protected override AggregateRoot<string> ApplyChange(DomainEvent<string> @event) => @event switch
-        {
-            StringAggregateCreated e => Apply(e),
-            ValueAdded e => Apply(e),
-            _ => throw new Exception("Unknown event")
-        };
       
     }
 }
