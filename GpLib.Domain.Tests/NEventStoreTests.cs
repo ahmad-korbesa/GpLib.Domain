@@ -14,7 +14,7 @@ namespace GpLib.Domain.Tests
         public void Should_SaveStreamOfEvents()
         {
 
-            var obj = StringKeyAggregate.Create("P12345", 1, "ahmad");
+            var obj = StringKeyAggregate.Create("P12345", 1, "Ahmad");
             obj.AddValue(3);
             obj.AddValue(5);
             var changes = obj.GetChanges();
@@ -28,7 +28,6 @@ namespace GpLib.Domain.Tests
                 .ForEach(change => stream.Add(change));
 
             stream.CommitChanges(Guid.NewGuid());
-
 
             using var streamOfEvents = store.OpenStream(obj.Id);
             var outputChanges = streamOfEvents.CommittedEvents.Select(x => x.Body as DomainEvent<string>).ToList();

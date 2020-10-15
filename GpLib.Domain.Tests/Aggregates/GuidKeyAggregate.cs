@@ -6,6 +6,8 @@ namespace GpLib.Domain.Tests
 {
     public class GuidKeyAggregate : AggregateRoot<Guid>
     {
+        public override Guid Id { get; protected set; }
+
         public int X { get; protected set; }
 
         public string Y { get; protected set; }
@@ -15,15 +17,15 @@ namespace GpLib.Domain.Tests
         protected GuidKeyAggregate() { }
 
         protected GuidKeyAggregate(Guid id, int x, string y) =>
-            ApplyEvent(new GuidAggregateCreated(x, y, id, Guid.NewGuid()));
+            ApplyChange(new GuidAggregateCreated(x, y, id, Guid.NewGuid()));
 
         public static GuidKeyAggregate Create(Guid id, int x, string y) => new GuidKeyAggregate(id, x, y);
 
         public static GuidKeyAggregate CreateEmpty() => new GuidKeyAggregate();
 
-        public void AddValue(double v) => ApplyEvent(new ValueAdded2(v, Id, Guid.NewGuid()));
+        public void AddValue(double v) => ApplyChange(new ValueAdded2(v, Id, Guid.NewGuid()));
 
-        private GuidKeyAggregate Apply(GuidAggregateCreated @event)
+        protected GuidKeyAggregate Apply(GuidAggregateCreated @event)
         {
             Id = @event.AggregateId;
             X = @event.X;
@@ -32,16 +34,10 @@ namespace GpLib.Domain.Tests
             return this;
         }
 
-        private GuidKeyAggregate Apply(ValueAdded2 @event)
+        protected GuidKeyAggregate Apply(ValueAdded2 @event)
         {
             Values.Add(@event.Value);
             return this;
         }
-        protected override AggregateRoot<Guid> ApplyChange(DomainEvent<Guid> @event) => @event switch
-        {
-            GuidAggregateCreated e => Apply(e),
-            ValueAdded2 e => Apply(e),
-            _ => throw new Exception("Unknown event")
-        };
     }
 }
