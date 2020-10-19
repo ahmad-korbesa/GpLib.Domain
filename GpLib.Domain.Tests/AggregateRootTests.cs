@@ -77,8 +77,24 @@ namespace GpLib.Domain.Tests
 
             var spec = new Specs.StringAggregatePositiveX();
             spec.IsSatisfiedBy(obj).Should().BeTrue();
+        }
 
 
+        [Fact]
+        public void Should_Serialize_events()
+        {
+            var obj = StringKeyAggregate.Create("P12345", 1, "Ahmad");
+            obj.AddValue(3);
+            obj.AddValue(5);
+
+            var changes = obj.GetChanges();
+            var settings = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Objects };
+            foreach (var change in changes)
+            {
+                var serializationResult = Newtonsoft.Json.JsonConvert.SerializeObject(change, settings);
+                var deserializationResult = Newtonsoft.Json.JsonConvert.DeserializeObject(serializationResult, settings);
+                deserializationResult.GetType().Should().BeSameAs(change.GetType());
+            }
         }
     }
 }
