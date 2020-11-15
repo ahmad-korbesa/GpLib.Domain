@@ -3,18 +3,8 @@ using System;
 
 namespace GpLib.Domain.Tests
 {
-    public class GuidAggregateCreated : DomainEvent<Guid>
-    {
-        private const int VERSION = 0;
-
-        public GuidAggregateCreated(int x, string y, Guid aggregateId, Guid guid) : base(aggregateId, guid, VERSION)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public int X { get; protected set; }
-
-        public string Y { get; protected set; }
-    }
+    public record GuidAggregateCreated
+        (int X, string Y, Guid AggregateId, Guid EventId, DateTime Timestamp) :
+        DomainEvent<Guid>(AggregateId, Timestamp, 0, EventId)
+    { }
 }

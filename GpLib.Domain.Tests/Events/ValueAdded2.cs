@@ -3,14 +3,9 @@ using System;
 
 namespace GpLib.Domain.Tests
 {
-    public class ValueAdded2 : DomainEvent<Guid>
+    public record ValueAdded2
+        (double Value, Guid AggregateId, Guid EventId, DateTime Timestanp)
+        : DomainEvent<Guid>(AggregateId, Timestanp, 0, EventId)
     {
-        private const int VERSION = 0;
-        public double Value { get; set; }
-
-        public ValueAdded2(double value, Guid aggregateId, Guid guid) : base(aggregateId, guid, VERSION)
-        {
-            Value = value;
-        }
     }
 }
