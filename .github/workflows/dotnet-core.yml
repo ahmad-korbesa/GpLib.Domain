@@ -16,14 +16,12 @@ jobs:
         fetch-depth: 0
     - name: 'Get Previous tag'
       id: previoustag
-      uses: "WyriHaximus/github-action-get-previous-tag@master" 
-    - name: Generate build number
-      uses: einaregilsson/build-number@v2 
-      with:
-        token: ${{secrets.github_token}}        
+      uses: "WyriHaximus/github-action-get-previous-tag@master"  
     - name: Print latest tag
       run: echo "Build number is ${{ steps.previoustag.outputs.tag }}"
-      
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x' # SDK Version to use; x will use the latest version of the 3.1 channel
     - name: Install dependencies
       run: dotnet restore
       env:
