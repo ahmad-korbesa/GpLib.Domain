@@ -17,19 +17,21 @@ namespace GpLib.Domain.Tests
 
         protected StringKeyAggregate() { }
 
-        protected StringKeyAggregate(string id, int x, string y) =>
-            ApplyChange(new StringAggregateCreated(x, y, id, Guid.NewGuid()));
+        protected StringKeyAggregate(string id, int x, string y) 
+            => ApplyChange(new StringAggregateCreated(x, y, id, Guid.NewGuid(), DateTime.Now));
       
-        public static StringKeyAggregate Create(string id, int x, string y) => new StringKeyAggregate(id, x, y);
+        public static StringKeyAggregate Create(string id, int x, string y)
+            => new StringKeyAggregate(id, x, y);
 
-        public static StringKeyAggregate CreateEmpty() => new StringKeyAggregate();
+        public static StringKeyAggregate CreateEmpty() 
+            => new StringKeyAggregate();
 
-        public StringKeyAggregate AddValue(double v) => ApplyChange(new ValueAdded(v, Id, Guid.NewGuid())) as StringKeyAggregate;
+        public StringKeyAggregate AddValue(double v) 
+            => ApplyChange(new ValueAdded(v, Id, Guid.NewGuid(), DateTime.Now)) as StringKeyAggregate;
 
         public void InvokeMissingEvent()
-        {
-            ApplyChange(new StringAggregateMissingEvent(Id, Guid.NewGuid(), 0));
-        }
+            => ApplyChange(new StringAggregateMissingEvent(Id, Guid.NewGuid(), DateTime.Now));
+        
 
         protected StringKeyAggregate Apply(StringAggregateCreated @event)
         {

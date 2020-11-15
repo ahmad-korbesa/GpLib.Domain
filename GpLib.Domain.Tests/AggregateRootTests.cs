@@ -41,7 +41,7 @@ namespace GpLib.Domain.Tests
             obj.AddValue(5);
             var changes = obj.GetChanges();
             changes.Should().HaveCount(3);
-            changes.Add(new ValueAdded(1, "P12345", Guid.NewGuid()));
+            changes.Add(new ValueAdded(1, "P12345", Guid.NewGuid(), DateTime.Now));
 
             var changes2 = obj.GetChanges();
             changes2.Should().HaveCount(3);

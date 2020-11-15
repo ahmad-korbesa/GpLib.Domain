@@ -17,13 +17,14 @@ namespace GpLib.Domain.Tests
         protected GuidKeyAggregate() { }
 
         protected GuidKeyAggregate(Guid id, int x, string y) =>
-            ApplyChange(new GuidAggregateCreated(x, y, id, Guid.NewGuid()));
+            ApplyChange(new GuidAggregateCreated(x, y, id, Guid.NewGuid(), DateTime.Now));
 
-        public static GuidKeyAggregate Create(Guid id, int x, string y) => new GuidKeyAggregate(id, x, y);
+        public static GuidKeyAggregate Create(Guid id, int x, string y) => 
+            new GuidKeyAggregate(id, x, y);
 
         public static GuidKeyAggregate CreateEmpty() => new GuidKeyAggregate();
 
-        public void AddValue(double v) => ApplyChange(new ValueAdded2(v, Id, Guid.NewGuid()));
+        public void AddValue(double v) => ApplyChange(new ValueAdded2(v, Id, Guid.NewGuid(),DateTime.Now));
 
         protected GuidKeyAggregate Apply(GuidAggregateCreated @event)
         {
