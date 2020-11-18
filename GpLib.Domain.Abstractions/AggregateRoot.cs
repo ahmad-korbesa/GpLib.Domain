@@ -19,6 +19,8 @@ namespace GpLib.Domain.Abstractions
         //Consider opening this name for modification
         private string EventApplicationMethodName { get; set; } = "Apply";
 
+        public int Version { get; protected set; }
+
         private AggregateRoot<TKey> HandleEvent(DomainEvent<TKey> @event)
         {
             var mytype = this.GetType();
@@ -29,7 +31,7 @@ namespace GpLib.Domain.Abstractions
                 .SingleOrDefault(p => p.ReturnType.Equals(mytype) &&
                                         p.Name == EventApplicationMethodName &&
                                         p.GetParameters().Single().ParameterType.Equals(eventType))
-                ?? throw new AggregateRootException($"Could not find an {EventApplicationMethodName} method corresponding to the signature \"private/protected {mytype} {EventApplicationMethodName}({eventType})\"");
+                ?? throw new AggregateRootException($"Could not find any {EventApplicationMethodName} method corresponding to the signature \"private/protected {mytype} {EventApplicationMethodName}({eventType})\"");
 
             return (AggregateRoot<TKey>)method.Invoke(this, new object[] { @event });
         }
