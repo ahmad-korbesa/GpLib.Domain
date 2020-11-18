@@ -10,6 +10,7 @@ namespace GpLib.Domain.Abstractions
     {
         protected AggregateRoot()
         {
+            Version = 0;
         }
 
         private ImmutableList<DomainEvent<TKey>> _changes = ImmutableList<DomainEvent<TKey>>.Empty;
@@ -18,6 +19,8 @@ namespace GpLib.Domain.Abstractions
 
         //Consider opening this name for modification
         private string EventApplicationMethodName { get; set; } = "Apply";
+
+        public int Version { get; protected set; }
 
         private AggregateRoot<TKey> HandleEvent(DomainEvent<TKey> @event)
         {
@@ -29,7 +32,7 @@ namespace GpLib.Domain.Abstractions
                 .SingleOrDefault(p => p.ReturnType.Equals(mytype) &&
                                         p.Name == EventApplicationMethodName &&
                                         p.GetParameters().Single().ParameterType.Equals(eventType))
-                ?? throw new AggregateRootException($"Could not find an {EventApplicationMethodName} method corresponding to the signature \"private/protected {mytype} {EventApplicationMethodName}({eventType})\"");
+                ?? throw new AggregateRootException($"Could not find any {EventApplicationMethodName} method corresponding to the signature \"private/protected {mytype} {EventApplicationMethodName}({eventType})\"");
 
             return (AggregateRoot<TKey>)method.Invoke(this, new object[] { @event });
         }
@@ -52,6 +55,7 @@ namespace GpLib.Domain.Abstractions
         {
             if (isNew)
                 _changes = _changes.Add(@event);
+            Version++;
             return HandleEvent(@event);
         }
 
