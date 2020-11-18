@@ -10,6 +10,7 @@ namespace GpLib.Domain.Abstractions
     {
         protected AggregateRoot()
         {
+            Version = 0;
         }
 
         private ImmutableList<DomainEvent<TKey>> _changes = ImmutableList<DomainEvent<TKey>>.Empty;
@@ -54,6 +55,7 @@ namespace GpLib.Domain.Abstractions
         {
             if (isNew)
                 _changes = _changes.Add(@event);
+            Version++;
             return HandleEvent(@event);
         }
 
